@@ -8,6 +8,8 @@ import javax.mail.internet.*;
 
 public class TheGame
 {
+    private static String pass = "";
+
     // reads in the list of losers from a file, returns the LoserList object
     public static LoserList readList()
     {
@@ -146,10 +148,13 @@ public class TheGame
         System.out.println("connecting...");
         String userEmail = getEmailAddress();
         // get password from user
-        Scanner passScanner = new Scanner(System.in);
-        System.out.println("What is your email password (this will not be saved)?");
-        String userPass = passScanner.next();
-        transport.connect("smtp.gmail.com", userEmail, userPass);
+        if (pass.isEmpty())
+        {
+            Scanner passScanner = new Scanner(System.in);
+            System.out.println("What is your email password (this will not be saved)?");
+            pass = passScanner.next();
+        }
+        transport.connect("smtp.gmail.com", userEmail, pass);
 
         System.out.println("Sending e-mail...");
         transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
